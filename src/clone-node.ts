@@ -133,11 +133,11 @@ function cloneCSSStyle<T extends HTMLElement>(nativeNode: T, clonedNode: T) {
       ) {
         value = 'block'
       }
-      
+
       if (name === 'd' && clonedNode.getAttribute('d')) {
         value = `path(${clonedNode.getAttribute('d')})`
       }
-      
+
       targetStyle.setProperty(
         name,
         value,
@@ -194,7 +194,7 @@ async function ensureSVGSymbols<T extends HTMLElement>(
   for (let i = 0; i < uses.length; i++) {
     const use = uses[i]
     const id = use.getAttribute('xlink:href')
-    if (id) {
+    if (id && id.startsWith('#')) {
       const exist = clone.querySelector(id)
       const definition = document.querySelector(id) as HTMLElement
       if (!exist && definition && !processedDefs[id]) {
