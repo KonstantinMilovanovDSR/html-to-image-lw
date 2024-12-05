@@ -10,6 +10,7 @@ import {
   canvasToBlob,
   nodeToDataURL,
   checkCanvasDimensions,
+  nodeToBase64,
 } from './util'
 
 export async function toSvg<T extends HTMLElement>(
@@ -22,6 +23,19 @@ export async function toSvg<T extends HTMLElement>(
   await embedImages(clonedNode, options)
   applyStyle(clonedNode, options)
   const datauri = await nodeToDataURL(clonedNode, width, height)
+  return datauri
+}
+
+export async function toBase64<T extends HTMLElement>(
+  node: T,
+  options: Options = {},
+) {
+  const { width, height } = getImageSize(node, options)
+  const clonedNode = (await cloneNode(node, options, true)) as HTMLElement
+  await embedWebFonts(clonedNode, options)
+  await embedImages(clonedNode, options)
+  applyStyle(clonedNode, options)
+  const datauri = await nodeToBase64(clonedNode, width, height)
   return datauri
 }
 
